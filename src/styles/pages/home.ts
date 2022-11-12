@@ -3,8 +3,6 @@ import { styled } from "..";
 export const HomeContainer = styled('main', {
   display: 'flex',
   width: '100%',
-  marginLeft: 'auto',
-  maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
   minHeight: 656,
 })
 
@@ -42,15 +40,23 @@ export const Product = styled('div', {
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
 
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+
     strong: {
       fontSize: '$lg',
       color: '$gray100',
+      lineHeight: '160%',
+      marginBottom: '0.25rem'
     },
 
     span: {
       fontSize: '$xl',
       fontWeight: 'bold',
-      color: '$green300'
+      color: '$green300',
+      lineHeight: '140%',
     },
   },
 
@@ -59,5 +65,19 @@ export const Product = styled('div', {
       transform: 'translateY(0%)',
       opacity: 1
     }
+  }
+})
+
+export const BuyButton = styled('button', {
+  backgroundColor: '$green500',
+  color: '$white',
+  borderRadius: 6,
+  border: 'none',
+  padding: '0.75rem',
+  cursor: 'pointer',
+  lineHeight: 0,
+
+  '&:hover': {
+    backgroundColor: '$green300',
   }
 })
