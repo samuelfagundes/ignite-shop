@@ -21,7 +21,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     mode: 'payment',
     line_items: [
       {
-        price: priceId,
+        price: 'price_1M07isCVw1OEY74iXTSNbX1y',
+        quantity: 1
+      },
+      {
+        price: 'price_1M07iRCVw1OEY74iAFL9d0NZ',
+        quantity: 1
+      },
+      {
+        price: 'price_1M07hKCVw1OEY74iJsneL1dI',
+        quantity: 1
+      },
+      {
+        price: 'price_1M07fjCVw1OEY74i1jBn1dUb',
         quantity: 1
       }
     ]
