@@ -2,14 +2,19 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { stripe } from "../lib/stripe";
-
-import { useKeenSlider } from 'keen-slider/react'
-
-import { BuyButton, HomeContainer, Product } from "../styles/pages/home";
 
 import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/react'
+
+import { stripe } from "../lib/stripe";
 import Stripe from "stripe";
+
+import { priceFormatter } from "../utils/priceFormatter";
+
+import { OrdersContext } from "../contexts/OrdersContext";
+import { useContext } from "react";
+
+import { BuyButton, HomeContainer, Product } from "../styles/pages/home";
 import { Handbag } from "phosphor-react";
 
 interface HomeProps {
@@ -17,11 +22,14 @@ interface HomeProps {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
+    priceId: string
   }[]
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addProductToCart } = useContext(OrdersContext)
+
   const [sliderRef] = useKeenSlider({
     slides: {
       origin: 'center',
@@ -38,22 +46,22 @@ export default function Home({ products }: HomeProps) {
       <HomeContainer ref={sliderRef} className="keen-slider">   
         {products.map((product) => {
           return (
-            <Link key={product.id} href={`/product/${product.id}`} prefetch={false} >
-              <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} width={520} height={480} alt="" />
+            <Product className="keen-slider__slide" key={product.id}>
+                <Link href={`/product/${product.id}`} prefetch={false} >
+                  <Image src={product.imageUrl} width={520} height={480} alt="" />
+                </Link>
 
                 <footer>
                   <div>
                     <strong>{product.name}</strong>
-                    <span>{product.price}</span>
+                    <span>{priceFormatter.format(product.price / 100)}</span>
                   </div>
 
-                  <BuyButton>
+                  <BuyButton onClick={() => {addProductToCart(product.priceId, product.name, product.imageUrl, product.price, product.id)}}>
                     <Handbag size={32} weight="bold" />
                   </BuyButton>
                 </footer>
               </Product>
-            </Link>
           )
         })}
       </HomeContainer>
@@ -73,10 +81,8 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      }).format(price.unit_amount / 100),
+      price: price.unit_amount,
+      priceId: price.id
 
     }
   })

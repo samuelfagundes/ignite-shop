@@ -30,10 +30,10 @@ export const Header = styled('header', {
 
 export const Counter = styled('div', {
   position: 'absolute',
-  top: '1.4rem',
-  right: '-0.8rem',
-  maxWidth: '1.5rem',
-  maxHeight: '1.5rem',
+  top: '1.5rem',
+  right: '-0.6rem',
+  width: '1.7rem',
+  height: '1.7rem',
   
   display: 'flex',
   alignItems: 'center',
@@ -42,11 +42,9 @@ export const Counter = styled('div', {
   fontSize: '$sm',
   fontWeight: 'bold',
 
-  background:'$green300 !important',
-  color: '$white !important',
+  background:'$green300',
+  color: '$white',
   border: '4px solid $gray900',
-
-  opacity: 0,
 })
 
 export const Sidebar = styled('aside', {
